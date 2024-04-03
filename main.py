@@ -54,4 +54,33 @@ def blur_frames():
         else:
             print(f"Could not read the image {frame_path}")
 
+def edge_detect():
+    blurred_frames_dir = 'blurred_frames_fire1'
+    edges_frames_dir = 'edges_fire1'
 
+
+    # Iterate over each file in the blurred frames directory
+    for frame in os.listdir(blurred_frames_dir):
+        # Construct the full file path
+        frame_path = os.path.join(blurred_frames_dir, frame)
+
+        # Read the image
+        image = cv2.imread(frame_path)
+
+        # Check if the image was successfully loaded
+        if image is not None:
+            # Convert the image to grayscale
+            gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+            # Apply Canny edge detection
+            edges = cv2.Canny(gray_image, threshold1=50, threshold2=150)
+
+            # Construct the path for the edge-detected image
+            edges_frame_path = os.path.join(edges_frames_dir, frame)
+
+            # Save the edge-detected image
+            cv2.imwrite(edges_frame_path, edges)
+        else:
+            print(f"Could not read the image {frame_path}")
+
+edge_detect()
