@@ -1,14 +1,6 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-
 import cv2
-
-
 import os
+
 def get_frames():
     # Load the video
     video_path = 'video/fire.mp4'
@@ -37,8 +29,6 @@ def get_frames():
     cap.release()
 
 def blur_frames():
-
-
     # Directory containing the frames
     frames_dir = 'frames_fire1'
     blurred_frames_dir = 'blurred_frames_fire1'
@@ -63,14 +53,5 @@ def blur_frames():
             cv2.imwrite(blurred_frame_path, blurred_image)
         else:
             print(f"Could not read the image {frame_path}")
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    blur_frames()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
