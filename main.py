@@ -1,10 +1,13 @@
 import cv2
 import os
 
+import numpy as np
+
+
 def get_frames():
     # Load the video
     video_path = 'video/fire.mp4'
-    cap = cv2.VideoCapture("videos/fire1.mp4")
+    cap = cv2.VideoCapture("videos/city.mp4")
 
     # Check if video opened successfully
     if not cap.isOpened():
@@ -21,7 +24,7 @@ def get_frames():
             break
 
         # Save the frame as a JPEG file
-        frame_filename = f"frames_fire1/fire1_frame_{frame_count:04d}.jpg"
+        frame_filename = f"frames_city/city_frame_{frame_count:04d}.jpg"
         cv2.imwrite(frame_filename, frame)
         frame_count += 1
 
@@ -30,8 +33,8 @@ def get_frames():
 
 def blur_frames():
     # Directory containing the frames
-    frames_dir = 'frames_fire1'
-    blurred_frames_dir = 'blurred_frames_fire1'
+    frames_dir = 'frames_city'
+    blurred_frames_dir = 'blurred_frames_city'
 
     # Iterate over each file in the directory
     for frame in os.listdir(frames_dir):
@@ -55,8 +58,8 @@ def blur_frames():
             print(f"Could not read the image {frame_path}")
 
 def edge_detect():
-    blurred_frames_dir = 'blurred_frames_fire1'
-    edges_frames_dir = 'edges_fire1'
+    blurred_frames_dir = 'blurred_frames_city'
+    edges_frames_dir = 'edges_city'
 
 
     # Iterate over each file in the blurred frames directory
@@ -83,4 +86,50 @@ def edge_detect():
         else:
             print(f"Could not read the image {frame_path}")
 
-edge_detect()
+# edge_detect()
+
+# Directory containing the edge-detected frames
+edges_frames_dir = 'edges_city'
+
+# Get a sorted list of all frame filenames
+frame_files = sorted(os.listdir(edges_frames_dir))
+
+# Initialize the previous frame variable
+previous_frame = None
+total=0
+amt=0
+# Iterate over each file in the edge-detected frames directory
+for i, frame_file in enumerate(frame_files):
+    # Construct the full file path
+    frame_path = os.path.join(edges_frames_dir, frame_file)
+
+    # Read the image
+    current_frame = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE)
+
+    # Check if the frame was successfully loaded
+    if current_frame is not None and previous_frame is not None:
+        # Compute the absolute difference between the current frame and the previous frame
+        frame_diff = cv2.absdiff(current_frame, previous_frame)
+
+        # Threshold the difference to get a binary image of the motion
+        _, thresh = cv2.threshold(frame_diff, 25, 255, cv2.THRESH_BINARY)
+
+        # Find the percentage of image that has changed
+        motion_percentage = (np.sum(thresh) / thresh.size) / 255.0 * 100
+
+        # You can now use motion_percentage to decide if significant motion occurred
+        # print(f"Frame {i}: Motion percentage = {motion_percentage:.2f}%")
+        total=total+motion_percentage
+        amt=amt+1
+        # For visualization, you might want to save or display the thresholded difference
+        # For example, to save the image uncomment the following line:
+        # cv2.imwrite(f"motion_frame_{i:04d}.jpg", thresh)
+
+    # Update the previous frame
+    previous_frame = current_frame
+
+# get_frames()
+# blur_frames()
+# edge_detect()
+total=total/amt
+print(f"Average = {total}")
