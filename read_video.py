@@ -24,7 +24,7 @@ def get_frames(vid):
             break
 
         # Save the frame as a JPEG file
-        frame_filename = f"frames_city/{vid}_frame_{frame_count:04d}.jpg"
+        frame_filename = f"frames_{vid}/{vid}_frame_{frame_count:04d}.jpg"
         cv2.imwrite(frame_filename, frame)
         frame_count += 1
 

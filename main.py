@@ -12,6 +12,7 @@ import read_video
 # read_video.blur_frames("walking")
 # read_video.edge_detect("walking")
 # total=total/amt
-track_shape.check_shape("fire3")
+# motion_detection.motion_detect("walking")
+track_shape.visualize_change("city")
 # motion_detection.motion_detect_2("city")
 # print(f"Average = {total}")

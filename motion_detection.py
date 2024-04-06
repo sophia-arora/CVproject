@@ -43,6 +43,7 @@ def motion_detect(vid):
 
         # Update the previous frame
         previous_frame = current_frame
+    print(f"avg={total/amt}")
 def motion_detect_2(vid):
     edges_frames_dir = f'edges_{vid}'
     frame_files = sorted(os.listdir(edges_frames_dir))
