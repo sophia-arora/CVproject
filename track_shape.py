@@ -8,6 +8,7 @@ def check_shape(vid):
 
     previous_contours = None
     significant_change_count = 0  # Counter for frames with significant shape changes
+    count=0
 
     for i, frame_file in enumerate(frame_files[:-1]):
         frame_path = os.path.join(edges_frames_dir, frame_file)
@@ -18,19 +19,26 @@ def check_shape(vid):
             contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
             shape_change_detected = False
+            amt = 0
+            cont = 0
             if previous_contours is not None and contours:
+
                 for contour in contours:
+
                     closest_contour = min(previous_contours, key=lambda x: cv2.matchShapes(x, contour, 1, 0.0))
                     shape_similarity = cv2.matchShapes(closest_contour, contour, 1, 0.0)
-                    print(shape_similarity)
+                    # print(f"{count}:{shape_similarity}")
                     # Assuming significant shape change if similarity is above a threshold (e.g., 0.3)
-                    if shape_similarity > 0.1:
+                    if shape_similarity > 2:
                         shape_change_detected = True
-                        break  # Exit the loop after the first significant change detected
+                        cont=cont+1
+                        # Exit the loop after the first significant change detected
+                    amt = amt + 1
 
-            if shape_change_detected:
-                significant_change_count += 1
-
+            if amt!=0:
+                if (cont/amt)>0.2:
+                    significant_change_count += 1
+            count=count+1
             previous_contours = contours
 
     print(f"Total number of frames with significant shape change: {significant_change_count}")
