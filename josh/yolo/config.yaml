@@ -1,0 +1,8 @@
+
+path: C:\Users\jos72\Documents\GitHub\CVproject\josh\yolo\
+train: fire/train
+val: fire/val
+
+#classes
+names: 
+  0: fire
