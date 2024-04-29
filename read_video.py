@@ -33,8 +33,10 @@ def get_frames(vid):
 
 def blur_frames(vid):
     # Directory containing the frames
-    frames_dir = f'frames_{vid}'
+    frames_dir = f'{vid}'
     blurred_frames_dir = f'blurred_frames_{vid}'
+    if not os.path.exists(blurred_frames_dir):
+        os.makedirs(blurred_frames_dir)
 
     # Iterate over each file in the directory
     for frame in os.listdir(frames_dir):
@@ -47,7 +49,7 @@ def blur_frames(vid):
         # Check if the image was successfully loaded
         if image is not None:
             # Apply Gaussian blur to the image
-            blurred_image = cv2.GaussianBlur(image, (5, 5), 0)
+            blurred_image = cv2.GaussianBlur(image, (5, 5), 5)
 
             # Construct the path for the blurred image
             blurred_frame_path = os.path.join(blurred_frames_dir, frame)
@@ -60,6 +62,8 @@ def blur_frames(vid):
 def edge_detect(vid):
     blurred_frames_dir = f'blurred_frames_{vid}'
     edges_frames_dir = f'edges_{vid}'
+    if not os.path.exists(edges_frames_dir):
+        os.makedirs(edges_frames_dir)
 
 
     # Iterate over each file in the blurred frames directory
