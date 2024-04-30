@@ -7,26 +7,6 @@ import motion_detection
 import color_detection
 import read_video
 
-# edge_detect()
-
-# read_video.get_frames("walking")
-# read_video.blur_frames("fire_only_frames_city")
-# read_video.edge_detect("fire_only_frames_city")
-# total=total/amt
-# motion_detection.motion_detect("walking")
-# color_detection.color_plus_blob("frames_city")
-# color_detection.color_plus_blob("frames_fire1")
-# track_shape.visualize_change("fire_only_frames_city")
-# read_video.blur_frames("new_fire_param_frames_fire1")
-# read_video.edge_detect("new_fire_param_frames_fire1")
-# track_shape.check_shape("new_fire_param_frames_fire1")
-# track_shape.visualize_change("new_fire_param_frames_fire1")
-# motion_detection.motion_detect_2("city")
-# print(f"Average = {total}")
-# read_video.blur_frames("city")
-# read_video.edge_detect("city")
-# read_video.blur_frames("fire1")
-
 def colored_percentage(vid):
     input_dir = f'output_frames/color_blob_{vid}'  # Directory where the frames are stored
     list_frames = os.listdir(input_dir)
@@ -49,10 +29,16 @@ def colored_percentage(vid):
     total = (total/num)*100
     return total
 
+# read_video.blur_frames("city")
+# read_video.blur_frames("fire1")
+# read_video.blur_frames("fire2")
+# read_video.blur_frames("fire3")
+
 # color_detection.color_plus_blob("city")
 # color_detection.color_plus_blob("fire1")
 # color_detection.color_plus_blob("fire2")
 # color_detection.color_plus_blob("fire3")
+
 print(f"city: {colored_percentage('city')}")
 print(f"fire1: {colored_percentage('fire1')}")
 print(f"fire2: {colored_percentage('fire2')}")
