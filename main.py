@@ -96,12 +96,14 @@ def detect_random_movement(image_files):
         
     return randomness_frames
 
+# only need to run once to generate the frames
 read_video.blur_frames("city")
 read_video.blur_frames("fire1")
 read_video.blur_frames("fire2")
 read_video.blur_frames("fire3")
 read_video.blur_frames("walking")
 
+# only need to run once to generate the frames
 color_detection.color_plus_blob("city")
 color_detection.color_plus_blob("fire1")
 color_detection.color_plus_blob("fire2")
