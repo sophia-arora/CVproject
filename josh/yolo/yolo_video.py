@@ -3,8 +3,8 @@ import os
 from ultralytics import YOLO
 import cv2
 
-input_video_path = 'vids/housefire.mp4'
-output_video_path = 'vids/housefire0_output2.mp4'
+input_video_path = 'videos/fire3.mp4'
+output_video_path = 'videos/fire3_output.mp4'
 
 cap = cv2.VideoCapture(input_video_path)
 #ret, frame = cap.read()
@@ -23,12 +23,12 @@ else:
 
 out = cv2.VideoWriter(output_video_path, cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 
-model_path = os.path.join('.', 'runs', 'detect', 'train3', 'weights', 'best.pt')
+model_path = os.path.join('josh', 'yolo','runs', 'detect', 'train3', 'weights', 'best.pt')
 
 # Load a model
 model = YOLO(model_path)  # load a custom model
 
-threshold = 0.5
+threshold = 0.2
 
 while True:
     ret, frame = cap.read()
