@@ -5,7 +5,7 @@ import numpy as np
 
 def motion_detect(vid):
     # Directory containing the edge-detected frames
-    edges_frames_dir = f'edges_{vid}'
+    edges_frames_dir = f'output_frames/edges_{vid}'
 
     # Get a sorted list of all frame filenames
     frame_files = sorted(os.listdir(edges_frames_dir))
@@ -45,7 +45,7 @@ def motion_detect(vid):
         previous_frame = current_frame
     print(f"avg={total/amt}")
 def motion_detect_2(vid):
-    edges_frames_dir = f'edges_{vid}'
+    edges_frames_dir = f'output_frames/edges_{vid}'
     frame_files = sorted(os.listdir(edges_frames_dir))
 
     previous_frame = None

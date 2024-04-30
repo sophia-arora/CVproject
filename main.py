@@ -15,6 +15,7 @@ import read_video
 # total=total/amt
 # motion_detection.motion_detect("walking")
 color_detection.color_plus_blob("frames_city")
+color_detection.color_plus_blob("frames_fire1")
 # track_shape.visualize_change("fire_only_frames_city")
 # track_shape.check_shape("fire_only_frames_city")
 # motion_detection.motion_detect_2("city")

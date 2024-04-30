@@ -8,7 +8,7 @@ def color(vid):
     # input_dir = 'frames_city'  # Directory where the frames are stored
     # output_dir = 'new_fire_param_frames_city'  # Directory to save the output frames
     input_dir = f'{vid}'
-    output_dir = f'new_fire_param_{vid}'
+    output_dir = f'output_frames/new_fire_param_{vid}'
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -51,7 +51,7 @@ def color_plus_blob(vid):
     # output_dir = 'fire_only_frames_blob_city'  # Directory to save the output frames
 
     input_dir = f'{vid}'
-    output_dir = f'new_fire_param_{vid}'
+    output_dir = f'output_frames/new_fire_param_{vid}'
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -69,8 +69,8 @@ def color_plus_blob(vid):
             hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
             # Define the range of colors for fire
-            lower_bound = np.array([0, 115, 70])  # Adjusted lower bound of HSV for fire colors
-            upper_bound = np.array([30, 255, 255])  # Adjusted upper bound of HSV for fire colors
+            lower_bound = np.array([15, 100, 100])  # Adjusted lower bound of HSV for fire colors
+            upper_bound = np.array([60, 255, 255])  # Adjusted upper bound of HSV for fire colors
 
             # Create a mask that only includes colors within the specified range
             mask = cv2.inRange(hsv_image, lower_bound, upper_bound)
@@ -97,8 +97,8 @@ def color_plus_blob(vid):
             
 def blur():
     # blurring
-    frames_dir = f'fire_only_frames_city'
-    blurred_frames_dir = f'fire_only_frames_city'
+    frames_dir = f'output_frames/fire_only_frames_city'
+    blurred_frames_dir = f'output_frames/fire_only_frames_city'
     list_frames = os.listdir(frames_dir)
     # Iterate over each file in the directory
     # for frame in os.listdir(frames_dir):
@@ -123,7 +123,7 @@ def blur():
         print(f"Could not read the image {frame_path}")
 
 def percentage():
-    input_dir = 'fire_only_frames_blob_fire1'  # Directory where the frames are stored
+    input_dir = 'output_frames/fire_only_frames_blob_fire1'  # Directory where the frames are stored
     list_frames = os.listdir(input_dir)
     total=0
     num=0
