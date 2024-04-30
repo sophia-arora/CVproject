@@ -33,8 +33,8 @@ def get_frames(vid):
 
 def blur_frames(vid):
     # Directory containing the frames
-    frames_dir = f'{vid}'
-    blurred_frames_dir = f'blurred_frames_{vid}'
+    frames_dir = f'frames_{vid}'
+    blurred_frames_dir = f'output_frames/blurred_frames_{vid}'
     if not os.path.exists(blurred_frames_dir):
         os.makedirs(blurred_frames_dir)
 
@@ -60,8 +60,8 @@ def blur_frames(vid):
             print(f"Could not read the image {frame_path}")
 
 def edge_detect(vid):
-    blurred_frames_dir = f'blurred_frames_{vid}'
-    edges_frames_dir = f'edges_{vid}'
+    blurred_frames_dir = f'output_frames/blurred_frames_{vid}'
+    edges_frames_dir = f'output_frames/edges_{vid}'
     if not os.path.exists(edges_frames_dir):
         os.makedirs(edges_frames_dir)
 

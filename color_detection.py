@@ -50,8 +50,8 @@ def color_plus_blob(vid):
     # input_dir = 'blurred_frames_city'  # Directory where the frames are stored
     # output_dir = 'fire_only_frames_blob_city'  # Directory to save the output frames
 
-    input_dir = f'{vid}'
-    output_dir = f'output_frames/new_fire_param_{vid}'
+    input_dir = f'output_frames/blurred_frames_{vid}'
+    output_dir = f'output_frames/color_blob_{vid}'
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -76,7 +76,7 @@ def color_plus_blob(vid):
             mask = cv2.inRange(hsv_image, lower_bound, upper_bound)
 
             # Morphological operations
-            kernel = np.ones((5, 5), np.uint8)
+            kernel = np.ones((8, 8), np.uint8)
             mask = cv2.erode(mask, kernel, iterations=1)
             mask = cv2.dilate(mask, kernel, iterations=2)
 
@@ -95,10 +95,10 @@ def color_plus_blob(vid):
             output_frame_path = os.path.join(output_dir, frame_file)
             cv2.imwrite(output_frame_path, fire_only)
             
-def blur():
+def blur(vid):
     # blurring
-    frames_dir = f'output_frames/fire_only_frames_city'
-    blurred_frames_dir = f'output_frames/fire_only_frames_city'
+    frames_dir = f'{vid}'
+    blurred_frames_dir = f'output_frames/blurred_frames{vid}'
     list_frames = os.listdir(frames_dir)
     # Iterate over each file in the directory
     # for frame in os.listdir(frames_dir):
@@ -122,8 +122,8 @@ def blur():
     else:
         print(f"Could not read the image {frame_path}")
 
-def percentage():
-    input_dir = 'output_frames/fire_only_frames_blob_fire1'  # Directory where the frames are stored
+def percentage(vid):
+    input_dir = f'{vid}'  # Directory where the frames are stored
     list_frames = os.listdir(input_dir)
     total=0
     num=0
@@ -157,5 +157,3 @@ def percentage():
         print(f"No fire")
     else:
         print("fire")
-
-percentage()

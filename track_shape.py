@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 def check_shape(vid):
-    edges_frames_dir = f'edges_{vid}'
+    edges_frames_dir = f'output_frames/{vid}'
     frame_files = sorted(os.listdir(edges_frames_dir))
 
     previous_contours = None
@@ -45,8 +45,8 @@ def check_shape(vid):
 
 def visualize_change(vid):
 
-    edges_frames_dir = f'edges_{vid}'
-    output_frames_dir = f'output_frames_{vid}'
+    edges_frames_dir = f'output_frames/edges_{vid}'
+    output_frames_dir = f'output_frames/change_{vid}'
 
     # Ensure the output directory exists
     if not os.path.exists(output_frames_dir):
