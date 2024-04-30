@@ -4,9 +4,11 @@ import os
 
 # input_dir = 'frames_fire1'  # Directory where the frames are stored
 # output_dir = 'fire_only_frames_fire1'  # Directory to save the output frames
-def color():
-    input_dir = 'blurred_frames_fire1'  # Directory where the frames are stored
-    output_dir = 'fire_only_frames_fire1'  # Directory to save the output frames
+def color(vid):
+    # input_dir = 'frames_city'  # Directory where the frames are stored
+    # output_dir = 'new_fire_param_frames_city'  # Directory to save the output frames
+    input_dir = f'{vid}'
+    output_dir = f'new_fire_param_{vid}'
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -15,7 +17,7 @@ def color():
 
     # Iterate through each file in the directory
     for frame_file in os.listdir(input_dir):
-    # frame_file=list_frames[0]
+    # frame_file=list_frames[19]
         frame_path = os.path.join(input_dir, frame_file)
         image = cv2.imread(frame_path)
 
@@ -24,14 +26,19 @@ def color():
             hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
             # Define the range of colors for fire (these values can be adjusted)
-            lower_bound = np.array([0, 50, 50])  # Lower bound of HSV for fire colors
-            upper_bound = np.array([50, 255, 255])  # Upper bound of HSV for fire colors
+            lower_bound = np.array([14, 100, 100])  # Lower bound of HSV for fire colors
+            upper_bound = np.array([60, 255, 255])  # Upper bound of HSV for fire colors
 
             # Create a mask that only includes colors within the specified range
             mask = cv2.inRange(hsv_image, lower_bound, upper_bound)
 
             # Apply the mask to get the fire parts of the image
             fire_only = cv2.bitwise_and(image, image, mask=mask)
+
+            # # Remove any random chunks
+            # kernel = np.ones((20, 20), np.uint8)  # Adjust the kernel size as needed
+            # removed_chunks = cv2.morphologyEx(fire_only, cv2.MORPH_OPEN, kernel)
+            # cv2.imwrite("processed_image.jpg", removed_chunks)
 
             # Save or display the image
             output_frame_path = os.path.join(output_dir, frame_file)
@@ -63,5 +70,3 @@ def blur():
         cv2.imwrite(blurred_frame_path, blurred_image)
     else:
         print(f"Could not read the image {frame_path}")
-
-color()
