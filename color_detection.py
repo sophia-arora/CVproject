@@ -148,4 +148,5 @@ def percentage():
         print(f"No fire")
     else:
         print("fire")
-percentage()
+# percentage()
+color()

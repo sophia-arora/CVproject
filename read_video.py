@@ -8,6 +8,9 @@ def get_frames(vid):
     # Load the video
     video_path = 'video/fire.mp4'
     cap = cv2.VideoCapture(f"videos/{vid}.mp4")
+    output_dir = f'frames_{vid}'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     # Check if video opened successfully
     if not cap.isOpened():
@@ -33,7 +36,7 @@ def get_frames(vid):
 
 def blur_frames(vid):
     # Directory containing the frames
-    frames_dir = f'{vid}'
+    frames_dir = f'frames_{vid}'
     blurred_frames_dir = f'blurred_frames_{vid}'
     if not os.path.exists(blurred_frames_dir):
         os.makedirs(blurred_frames_dir)
