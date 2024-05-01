@@ -78,3 +78,34 @@ def visualize_change(vid):
             # Save the frame with the highlighted changes
             output_frame_path = os.path.join(output_frames_dir, f"changed_{frame_file}")
             cv2.imwrite(output_frame_path, current_frame)
+
+def detect_motion_changes(vid):
+    edges_frames_dir = f'edges/edges_{vid}'
+    frame_files = sorted(os.listdir(edges_frames_dir))
+
+    previous_contours = None
+    motion_contours_dict = {}
+
+    for i, frame_file in enumerate(frame_files[:-1]):
+        frame_path = os.path.join(edges_frames_dir, frame_file)
+        current_frame = cv2.imread(frame_path, cv2.IMREAD_GRAYSCALE)
+        significant_contours = []
+
+        if current_frame is not None:
+            _, thresh = cv2.threshold(current_frame, 25, 255, cv2.THRESH_BINARY)
+            contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+            if previous_contours is not None:
+                for contour in contours:
+                    closest_contour = min(previous_contours, key=lambda x: cv2.matchShapes(x, contour, 1, 0.0))
+                    shape_similarity = cv2.matchShapes(closest_contour, contour, 1, 0.0)
+
+                    if shape_similarity > 2:  # Adjust this threshold based on your needs
+                        significant_contours.append(contour)
+
+        if significant_contours:
+            motion_contours_dict[frame_file] = significant_contours
+
+        previous_contours = contours
+
+    return motion_contours_dict
