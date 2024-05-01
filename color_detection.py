@@ -5,8 +5,8 @@ import os
 # input_dir = 'frames_fire1'  # Directory where the frames are stored
 # output_dir = 'fire_only_frames_fire1'  # Directory to save the output frames
 def color(vid):
-    input_dir = f'blurred_frames_{vid}'  # Directory where the frames are stored
-    output_dir = f'fire_only_frames_{vid}'  # Directory to save the output frames
+    input_dir = f'blurred_frames/blurred_frames_{vid}'  # Directory where the frames are stored
+    output_dir = f'fire_only_frames/fire_only_frames_{vid}'  # Directory to save the output frames
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -40,8 +40,8 @@ def color_plus_blob(vid):
     import cv2
     import numpy as np
     import os
-    input_dir = f'blurred_frames_{vid}'  # Directory where the frames are stored
-    output_dir = f'fire_only_frames_blob_{vid}'  # Directory to save the output frames
+    input_dir = f'blurred_frames/blurred_frames_{vid}'  # Directory where the frames are stored
+    output_dir = f'fire_only_frames_blob/fire_only_frames_blob_{vid}'  # Directory to save the output frames
     # Ensure the output directory exists
 
     # Ensure the output directory exists
@@ -114,7 +114,7 @@ def blur():
         print(f"Could not read the image {frame_path}")
 
 def percentage(vid):
-    input_dir = f'fire_only_frames_blob_{vid}'  # Directory where the frames are stored
+    input_dir = f'fire_only_frames_blob/fire_only_frames_blob_{vid}'  # Directory where the frames are stored
     list_frames = os.listdir(input_dir)
     total=0
     num=0

@@ -17,11 +17,11 @@ def main(video_name):
         print(f"Error: Put your video titled {video_name} in the videos folder.")
         return
     print(video_name)
-    # read_video.get_frames(video_name)
-    # read_video.blur_frames(video_name)
-    # read_video.edge_detect(video_name)
-    # track_shape.check_shape(video_name)
-    # track_shape.visualize_change(video_name)
+    read_video.get_frames(video_name)
+    read_video.blur_frames(video_name)
+    read_video.edge_detect(video_name)
+    track_shape.check_shape(video_name)
+    track_shape.visualize_change(video_name)
     color_detection.color_plus_blob(video_name)
     color_detection.percentage(video_name)
 

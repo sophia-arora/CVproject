@@ -8,7 +8,7 @@ def get_frames(vid):
     # Load the video
     video_path = 'video/fire.mp4'
     cap = cv2.VideoCapture(f"videos/{vid}.mp4")
-    output_dir = f'frames_{vid}'
+    output_dir = f'frames/frames_{vid}'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -36,8 +36,8 @@ def get_frames(vid):
 
 def blur_frames(vid):
     # Directory containing the frames
-    frames_dir = f'frames_{vid}'
-    blurred_frames_dir = f'blurred_frames_{vid}'
+    frames_dir = f'frames/frames_{vid}'
+    blurred_frames_dir = f'blurred_frames/blurred_frames_{vid}'
     if not os.path.exists(blurred_frames_dir):
         os.makedirs(blurred_frames_dir)
 
@@ -63,8 +63,8 @@ def blur_frames(vid):
             print(f"Could not read the image {frame_path}")
 
 def edge_detect(vid):
-    blurred_frames_dir = f'blurred_frames_{vid}'
-    edges_frames_dir = f'edges_{vid}'
+    blurred_frames_dir = f'blurred_frames/blurred_frames_{vid}'
+    edges_frames_dir = f'edges/edges_{vid}'
     if not os.path.exists(edges_frames_dir):
         os.makedirs(edges_frames_dir)
 
