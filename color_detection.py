@@ -96,16 +96,26 @@ def detect_fire(vid):
             lower_bound = np.array([0, 115, 70])
             upper_bound = np.array([30, 255, 255])
             mask = cv2.inRange(hsv_image, lower_bound, upper_bound)
+
             kernel = np.ones((5, 5), np.uint8)
             mask = cv2.erode(mask, kernel, iterations=1)
             mask = cv2.dilate(mask, kernel, iterations=2)
+
             contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             large_contours = [contour for contour in contours if cv2.contourArea(contour) > 700]
+
+            large_blob_mask = np.zeros_like(mask)
+            cv2.drawContours(large_blob_mask, large_contours, -1, (255), thickness=cv2.FILLED)
+
+            fire_only = cv2.bitwise_and(image, image, mask=large_blob_mask)
+            output_frame_path = os.path.join(output_dir, frame_file)
+            cv2.imwrite(output_frame_path, fire_only)
+
             fire_contours.extend(large_contours)
 
         fire_contours_dict[frame_file] = fire_contours
-
-    return fire_contours_dict
+    decision = percentage(vid)
+    return fire_contours_dict, decision
 def blur():
     # blurring
     frames_dir = f'fire_only_frames_city'
@@ -166,7 +176,9 @@ def percentage(vid):
     print(f"Average: {total/num}")
     if total/num<1 :
         print(f"No fire")
+        return 0
     else:
         print("fire")
+        return 1
 # percentage()
 # color()
