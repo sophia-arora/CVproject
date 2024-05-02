@@ -16,11 +16,20 @@ import read_video
 
 def play_video(video_name, folder, val):
     # Frame rate control
+    vid=video_name
     video_name = f"{folder}_{video_name}"  # Replace with your actual video name
     base_dir = f"{folder}"  # The directory where your frames are stored
-
+    val=1
     frames_path = os.path.join(base_dir, video_name)
-    frame_files = sorted(os.listdir(frames_path))  # Ensure files are sorted correctly
+    if not os.path.exists(frames_path):
+        print(f"no fire detected")
+        video_name = f"frames_{vid}"
+        base_dir= f"frames"
+        frames_path = f"frames/frames_{vid}"
+        val=0
+        frame_files = sorted(os.listdir(frames_path))
+    else:
+        frame_files = sorted(os.listdir(frames_path))  # Ensure files are sorted correctly
 
     window_name = 'Video Playback'
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
@@ -34,11 +43,11 @@ def play_video(video_name, folder, val):
 
         if frame is not None:
             # Create space for text by padding the frame
-            padded_frame = cv2.copyMakeBorder(frame, 100, 0, 0, 0, cv2.BORDER_CONSTANT, value=(0, 0, 0))
+            padded_frame = cv2.copyMakeBorder(frame, 120, 0, 0, 0, cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
             # Add text to the padded frame
             if val==1:
-                text = "Fire Detected!"
+                text = "Possible fire detected"
             else:
                 text = "No Fire"
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -58,16 +67,15 @@ def play_video(video_name, folder, val):
             print(f"Failed to load the image from {frame_path}. Check the file path and permissions.")
 
     cv2.destroyAllWindows()
-def main(video_name):
+def make_video(video_name):
     video_path = f"videos/{video_name}.mp4"
-
     if not os.path.exists(video_path):
         print(f"Error: Put your video titled {video_name} in the videos folder.")
         return
     print(video_name)
-    # read_video.get_frames(video_name)
-    # read_video.blur_frames(video_name)
-    # read_video.edge_detect(video_name)
+    read_video.get_frames(video_name)
+    read_video.blur_frames(video_name)
+    read_video.edge_detect(video_name)
     list_frames = os.listdir(f"frames/frames_{video_name}")
     frame_path = list_frames[0]
     print("Attempting to load image from:", frame_path)
@@ -79,29 +87,23 @@ def main(video_name):
 
     fire_contours_dict, decision = color_detection.detect_fire(video_name)
     if decision == 1:
-    #     motion_contours_dict = track_shape.detect_motion_changes(video_name)
-    #     overlap_frames = overlap.check_for_overlap(fire_contours_dict, motion_contours_dict, image_shape)
-    #     overlap.visualize_overlaps(video_name, overlap_frames, fire_contours_dict, motion_contours_dict)
+        motion_contours_dict = track_shape.detect_motion_changes(video_name)
+        overlap_frames = overlap.check_for_overlap(fire_contours_dict, motion_contours_dict, image_shape)
+        overlap.visualize_overlaps(video_name, overlap_frames, fire_contours_dict, motion_contours_dict)
         folder = "visualized_overlaps"
         play_video(video_name, folder, 1)
     else:
         folder = "frames"
         play_video(video_name, folder, 0)
-    #
-
-    # track_shape.check_shape(video_name)
-    # track_shape.visualize_change(video_name)
-    # color_detection.color_plus_blob(video_name)
-    # color_detection.percentage(video_name)
 
 
+def main(video_name):
+    video_path = f"videos/{video_name}.mp4"
+    folder = "visualized_overlaps"
+    play_video(video_name, folder, 1)
+    # make_video(video_name)
 
-# total=total/amt
-# motion_detection.motion_detect("walking")
-# track_shape.visualize_change("fire_only_frames_city")
-# track_shape.check_shape("fire_only_frames_city")
-# motion_detection.motion_detect_2("city")
-# print(f"Average = {total}")
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("include video name")

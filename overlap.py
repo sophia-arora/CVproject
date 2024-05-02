@@ -15,13 +15,13 @@ def visualize_overlaps(vid, overlap_frames, fire_contours_dict, motion_contours_
         frame_path = os.path.join(video_frames_dir, frame_file)
         original_frame = cv2.imread(frame_path)
         if original_frame is not None:
-            # Draw fire contours in red
-            for contour in fire_contours_dict.get(frame_file, []):
-                cv2.drawContours(original_frame, [contour], -1, (0, 0, 255), 2)
-
-            # Draw motion contours in blue
-            for contour in motion_contours_dict.get(frame_file, []):
-                cv2.drawContours(original_frame, [contour], -1, (255, 0, 0), 2)
+            # # Draw fire contours in red
+            # for contour in fire_contours_dict.get(frame_file, []):
+            #     cv2.drawContours(original_frame, [contour], -1, (0, 0, 255), 2)
+            #
+            # # Draw motion contours in blue
+            # for contour in motion_contours_dict.get(frame_file, []):
+            #     cv2.drawContours(original_frame, [contour], -1, (255, 0, 0), 2)
 
             # Draw overlap contours in green
             for (fire_contour, motion_contour) in overlap_frames[frame_file]:
@@ -36,18 +36,17 @@ def visualize_overlaps(vid, overlap_frames, fire_contours_dict, motion_contours_
 
 
 def calculate_overlap_area(fire_contour, motion_contour, image_shape):
-    # Create a blank mask for each contour
+    #blank mask for each contour
     mask_fire = np.zeros(image_shape[:2], dtype=np.uint8)
     mask_motion = np.zeros(image_shape[:2], dtype=np.uint8)
 
-    # Draw the contours on their respective masks
+    #draw the contours on their masks
     cv2.drawContours(mask_fire, [fire_contour], -1, (255), thickness=cv2.FILLED)
     cv2.drawContours(mask_motion, [motion_contour], -1, (255), thickness=cv2.FILLED)
 
-    # Bitwise AND to find overlapping area
+    #and to find overlapping area
     overlap = cv2.bitwise_and(mask_fire, mask_motion)
-
-    # Calculate the area of overlap
+    #calculate the area of overlap
     overlap_area = np.count_nonzero(overlap)
 
     return overlap_area
