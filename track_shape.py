@@ -7,7 +7,7 @@ def check_shape(vid):
     frame_files = sorted(os.listdir(edges_frames_dir))
 
     previous_contours = None
-    significant_change_count = 0  # Counter for frames with significant shape changes
+    significant_change_count = 0
     count=0
 
     for i, frame_file in enumerate(frame_files[:-1]):
@@ -28,11 +28,10 @@ def check_shape(vid):
                     closest_contour = min(previous_contours, key=lambda x: cv2.matchShapes(x, contour, 1, 0.0))
                     shape_similarity = cv2.matchShapes(closest_contour, contour, 1, 0.0)
                     # print(f"{count}:{shape_similarity}")
-                    # Assuming significant shape change if similarity is above a threshold (e.g., 0.3)
                     if shape_similarity > 2:
                         shape_change_detected = True
                         cont=cont+1
-                        # Exit the loop after the first significant change detected
+
                     amt = amt + 1
 
             if amt!=0:
@@ -47,8 +46,6 @@ def visualize_change(vid):
 
     edges_frames_dir = f'edges/edges_{vid}'
     output_frames_dir = f'output_frames/output_frames_{vid}'
-
-    # Ensure the output directory exists
     if not os.path.exists(output_frames_dir):
         os.makedirs(output_frames_dir)
 
@@ -69,13 +66,12 @@ def visualize_change(vid):
                     closest_contour = min(previous_contours, key=lambda x: cv2.matchShapes(x, contour, 1, 0.0))
                     shape_similarity = cv2.matchShapes(closest_contour, contour, 1, 0.0)
 
-                    if shape_similarity > 0.3:  # Threshold for significant shape change
-                        # Draw the contour on the frame to highlight the change
+                    if shape_similarity > 0.3:  #threshold for significant shape change
+                        #draw the contour on the frame to highlight the change
                         cv2.drawContours(current_frame, [contour], -1, (0, 0, 255), 2)
 
             previous_contours = contours
 
-            # Save the frame with the highlighted changes
             output_frame_path = os.path.join(output_frames_dir, f"changed_{frame_file}")
             cv2.imwrite(output_frame_path, current_frame)
 
@@ -100,7 +96,7 @@ def detect_motion_changes(vid):
                     closest_contour = min(previous_contours, key=lambda x: cv2.matchShapes(x, contour, 1, 0.0))
                     shape_similarity = cv2.matchShapes(closest_contour, contour, 1, 0.0)
 
-                    if shape_similarity > 2:  # Adjust this threshold based on your needs
+                    if shape_similarity > 2:  
                         significant_contours.append(contour)
 
         if significant_contours:

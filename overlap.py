@@ -5,9 +5,8 @@ import numpy as np
 import os
 
 def visualize_overlaps(vid, overlap_frames, fire_contours_dict, motion_contours_dict):
-    video_frames_dir = f'frames/frames_{vid}'  # Directory where original video frames are stored
-    output_frames_dir = f'visualized_overlaps/visualized_overlaps_{vid}'  # Directory to save the visualized frames
-
+    video_frames_dir = f'frames/frames_{vid}'
+    output_frames_dir = f'visualized_overlaps/visualized_overlaps_{vid}'
     if not os.path.exists(output_frames_dir):
         os.makedirs(output_frames_dir)
 
@@ -15,11 +14,11 @@ def visualize_overlaps(vid, overlap_frames, fire_contours_dict, motion_contours_
         frame_path = os.path.join(video_frames_dir, frame_file)
         original_frame = cv2.imread(frame_path)
         if original_frame is not None:
-            # # Draw fire contours in red
+            # #draw fire contours in red
             # for contour in fire_contours_dict.get(frame_file, []):
             #     cv2.drawContours(original_frame, [contour], -1, (0, 0, 255), 2)
             #
-            # # Draw motion contours in blue
+            # #draw motion contours in blue
             # for contour in motion_contours_dict.get(frame_file, []):
             #     cv2.drawContours(original_frame, [contour], -1, (255, 0, 0), 2)
 
@@ -28,7 +27,6 @@ def visualize_overlaps(vid, overlap_frames, fire_contours_dict, motion_contours_
                 cv2.drawContours(original_frame, [fire_contour], -1, (0, 255, 0), 2)
                 cv2.drawContours(original_frame, [motion_contour], -1, (0, 255, 0), 2)
 
-            # Save or display the image
             output_frame_path = os.path.join(output_frames_dir, frame_file)
             cv2.imwrite(output_frame_path, original_frame)
 
@@ -53,7 +51,7 @@ def calculate_overlap_area(fire_contour, motion_contour, image_shape):
 
 
 def check_for_overlap(fire_contours_dict, motion_contours_dict, image_shape):
-    threshold_area = 25  # Overlap threshold in square pixels
+    threshold_area = 25  #overlap threshold in square pixels
     overlap_frames = {}
 
     for frame_file, fire_contours in fire_contours_dict.items():

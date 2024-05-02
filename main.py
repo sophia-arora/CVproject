@@ -103,8 +103,8 @@ def make_video(video_name):
 def main(video_name):
     video_path = f"videos/{video_name}.mp4"
     folder = "visualized_overlaps"
-    play_video(video_name, folder, 1)
     # make_video(video_name)
+    play_video(video_name, folder, 1)
 
 
 if __name__ == "__main__":
