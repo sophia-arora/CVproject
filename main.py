@@ -22,10 +22,13 @@ def play_video(video_name, folder, val):
     val=1
     frames_path = os.path.join(base_dir, video_name)
     if not os.path.exists(frames_path):
-        print(f"no fire detected")
+        # print(f"no fire detected")
         video_name = f"frames_{vid}"
         base_dir= f"frames"
         frames_path = f"frames/frames_{vid}"
+        if not os.path.exists(frames_path):
+            print(f"Please put {vid} in the videos folder and run 'make video'")
+            return
         val=0
         frame_files = sorted(os.listdir(frames_path))
     else:
