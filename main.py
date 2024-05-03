@@ -99,12 +99,48 @@ def make_video(video_name):
         folder = "frames"
         play_video(video_name, folder, 0)
 
+def frames_to_video(video_name):
+    input_path= f"visualized_overlaps/visualized_overlaps_{video_name}"
 
+    output_directory=f"video_output"
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+
+    output_filename = f"video_output_{video_name}.mp4"
+    # Full path for the output video
+    output_path = os.path.join(output_directory, output_filename)
+    print(f"Output path: {output_path}")  # Debug print to check the output path
+
+    # List files in the directory and sort them
+    frame_files = sorted([f for f in os.listdir(input_path) if f.endswith(".jpg")])
+
+    # Read the first frame to get the size (width and height)
+    first_frame = cv2.imread(os.path.join(input_path, frame_files[0]))
+    height, width, layers = first_frame.shape
+
+    # Define the codec and create a VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # You can also use 'XVID'
+    out = cv2.VideoWriter(output_path, fourcc, 30, (width, height))
+
+    if not out.isOpened():
+        print("Error: Could not open video writer. Check the output path and file extension.")
+        return  # Exit if video writer has not initialized properly
+
+    # Read each frame and write it to the video
+    for frame_file in frame_files:
+        frame_path = os.path.join(input_path, frame_file)
+        frame = cv2.imread(frame_path)
+        out.write(frame)  # Write the frame to the video
+
+    # Release the VideoWriter object
+    out.release()
+    print(f"Video created successfully at {output_path}!")
 def main(video_name):
     video_path = f"videos/{video_name}.mp4"
     folder = "visualized_overlaps"
-    # make_video(video_name)
-    play_video(video_name, folder, 1)
+    make_video(video_name)              #uncomment to check for fire
+    # play_video(video_name, folder, 1) #uncomment to just play the overlap vid
+    # frames_to_video(video_name)       #uncomment to make a vid out of overlap vid
 
 
 if __name__ == "__main__":

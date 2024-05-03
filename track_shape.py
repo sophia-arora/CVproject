@@ -96,7 +96,7 @@ def detect_motion_changes(vid):
                     closest_contour = min(previous_contours, key=lambda x: cv2.matchShapes(x, contour, 1, 0.0))
                     shape_similarity = cv2.matchShapes(closest_contour, contour, 1, 0.0)
 
-                    if shape_similarity > 2:  
+                    if shape_similarity > 2:
                         significant_contours.append(contour)
 
         if significant_contours:
