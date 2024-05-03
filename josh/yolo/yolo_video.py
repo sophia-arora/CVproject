@@ -3,8 +3,10 @@ import os
 from ultralytics import YOLO
 import cv2
 
-input_video_path = 'videos/fire3.mp4'
-output_video_path = 'videos/fire3_output.mp4'
+# path to media
+input_video_path = 'josh/yolo/vids/housefire.mp4'
+#input_video_path = 'videos/city.mp4'
+output_video_path = 'josh/yolo/vids/housefire_yolov8n.mp4'
 
 cap = cv2.VideoCapture(input_video_path)
 #ret, frame = cap.read()
@@ -12,21 +14,19 @@ cap = cv2.VideoCapture(input_video_path)
 if not cap.isOpened():
     print("Error: Could not open video file:", input_video_path)
 else:
-    # Try to read the first frame to confirm the video file can be read
     ret, frame = cap.read()
     if not ret:
         print("Error: Failed to read the first frame from the video file")
     else:
-        # Successfully read the first frame, now we can proceed
         H, W, _ = frame.shape
         print("Video opened successfully. Frame dimensions:", H, "x", W)
 
 out = cv2.VideoWriter(output_video_path, cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 
-model_path = os.path.join('josh', 'yolo','runs', 'detect', 'train3', 'weights', 'best.pt')
+#model_path = os.path.join('josh', 'yolo','runs', 'detect', 'train10', 'weights', 'best.pt')
+model_path = os.path.join('josh', 'yolo','yolo_output', 'yolov8n.pt')
 
-# Load a model
-model = YOLO(model_path)  # load a custom model
+model = YOLO(model_path) 
 
 threshold = 0.2
 
@@ -34,11 +34,10 @@ while True:
     ret, frame = cap.read()
     if not ret:
         print("Failed to grab a frame or end of video reached")
-        break  # Exit the loop if no frame is grabbed or end of video is reached
+        break  
 
-    H, W, _ = frame.shape  # Safe to access frame.shape because frame is not None
+    H, W, _ = frame.shape 
 
-    # Process the frame
     results = model(frame)[0]
 
     for result in results.boxes.data.tolist():
@@ -48,9 +47,8 @@ while True:
             cv2.putText(frame, results.names[int(class_id)].upper(), (int(x1), int(y1 - 10)),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
 
-    out.write(frame)  # Write the processed frame to the output file
+    out.write(frame) 
 
-# After the loop
 cap.release()
 out.release()
 cv2.destroyAllWindows()

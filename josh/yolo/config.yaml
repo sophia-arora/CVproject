@@ -1,7 +1,6 @@
 
-path: C:\Users\jos72\Documents\GitHub\CVproject\josh\yolo\
-train: fire/train
-val: fire/val
+train: C:\Users\Joshua Huang\Documents\GitHub\CVproject\josh\yolo\fire\train
+val: C:\Users\Joshua Huang\Documents\GitHub\CVproject\josh\yolo\fire\val
 
 #classes
 names: 
